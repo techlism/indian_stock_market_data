@@ -1,3 +1,4 @@
+ARG PORT=443
 FROM python:3.9
 
 WORKDIR /app
@@ -22,4 +23,4 @@ RUN pip install -r requirements.txt
 COPY . .
 #ENV PORT=80
 #CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "${PORT}"]
-CMD ["uvicorn", "app:app", "--host", "0.0.0.0"]
+CMD uvicorn main:app 0.0.0.0 --port $PORT
