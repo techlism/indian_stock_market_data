@@ -7,7 +7,7 @@ from bs4 import BeautifulSoup
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 from fastapi.exceptions import HTTPException
-import uvicorn
+
 def parse_stock_data(data):
   # Split the data into individual components
   components = data.split()
@@ -69,5 +69,3 @@ async def get_sensex():
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))        
     
-if __name__ == "__main__"    :
-    uvicorn.run()
