@@ -1,13 +1,14 @@
 from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+# from selenium.webdriver.common.keys import Keys
+# from selenium.webdriver.common.by import By
+# from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.chrome.service import Service
+# from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 from fastapi.exceptions import HTTPException
-
+from webdriver_manager.chrome import ChromeDriverManager
 def parse_stock_data(data):
   # Split the data into individual components
   components = data.split()
@@ -36,7 +37,7 @@ def get_data_bse(url):
     chrome_options.add_argument("--headless")
     chrome_options.add_argument("--no sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
-    driver = webdriver.Chrome(options=chrome_options)
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()),options=chrome_options)
     try:
         driver.get(url)
         page_source = driver.page_source
