@@ -6,7 +6,7 @@ FROM cypress/browsers
 WORKDIR /app
 
 RUN apt-get install wget
-RUN apt-get install unzip
+RUN apt-get install zip -y
 
 RUN CHROME_VERSION=$(google-chrome-stable --version | grep -oP '(?<=Google Chrome )[^ ]+') && \
     CHROME_URL=https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/$CHROME_VERSION/linux64/chromedriver-linux64.zip && \
