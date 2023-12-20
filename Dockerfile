@@ -5,7 +5,7 @@ FROM python
 FROM cypress/browsers
 WORKDIR /app
 
-
+RUN apt-get install -y chromedriver
 
 COPY requirements.txt .
 
