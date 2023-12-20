@@ -37,7 +37,8 @@ def get_data_bse(url):
     chrome_options.add_argument("--headless")
     chrome_options.add_argument("--no sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()),options=chrome_options)
+    driver_path = "chromedriver-linux64/chromedriver"
+    driver = webdriver.Chrome(service=Service(driver_path),options=chrome_options)
     try:
         driver.get(url)
         page_source = driver.page_source

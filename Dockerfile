@@ -5,7 +5,11 @@ FROM python
 FROM cypress/browsers
 WORKDIR /app
 
-RUN apt-get install -y chromedriver
+COPY installation.sh .
+
+RUN chmod +x installation.sh
+
+RUN ./installation.sh
 
 COPY requirements.txt .
 
