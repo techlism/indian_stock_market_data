@@ -34,6 +34,8 @@ def parse_stock_data(data):
 def get_data_bse(url):
     chrome_options = webdriver.ChromeOptions()
     chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--no sandbox")
+    chrome_options.add_argument("--disable-dev-shm-usage")
     driver = webdriver.Chrome(options=chrome_options)
     try:
         driver.get(url)
