@@ -5,8 +5,8 @@ FROM python
 FROM cypress/browsers
 WORKDIR /app
 
-RUN apt-get install wget
-RUN sudo apt-get install unzip -y
+RUN apt-get install -y wget unzip
+
 
 RUN CHROME_VERSION=$(google-chrome-stable --version | grep -oP '(?<=Google Chrome )[^ ]+') && \
     CHROME_URL=https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/$CHROME_VERSION/linux64/chromedriver-linux64.zip && \
