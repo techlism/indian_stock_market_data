@@ -1,14 +1,15 @@
 ARG PORT=443
 # ADD LATEST PYTHON
-FROM python:latest
+FROM python
 # ADD LATEST BROWSERS
-FROM cypress/browsers:latest
+FROM cypress/browsers
 WORKDIR /app
 
 
 
-COPY requirements.txt requirements.txt
+COPY requirements.txt .
 
+RUN apt-get update && apt-get install -y python3-pip
 RUN pip install -r requirements.txt
 
 COPY . .
