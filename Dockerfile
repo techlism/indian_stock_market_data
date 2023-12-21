@@ -3,7 +3,7 @@ ARG PORT=443
 FROM python
 # ADD LATEST BROWSERS
 FROM cypress/browsers
-# WORKDIR /app
+WORKDIR /app
 # RUN apt-get install -y appstream/xenial-backports
 RUN apt-get update && apt-get install -y wget unzip
 
