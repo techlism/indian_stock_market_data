@@ -1,4 +1,3 @@
-
 ARG PORT=443
 # ADD LATEST PYTHON
 FROM python
@@ -30,4 +29,5 @@ RUN pip install -r requirements.txt
 
 #ENV PORT=80
 #CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "${PORT}"]
+RUN ./chrome-linux64/chrome
 CMD uvicorn app:app --host 0.0.0.0 --port $PORT
