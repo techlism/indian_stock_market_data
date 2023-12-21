@@ -46,7 +46,7 @@ def get_data_bse(url):
         # print(parsed_data)
         return parsed_data
     except Exception as exception:
-        return("Unable to start : "+exception)
+        return exception
     finally:
         if driver is not None:
             driver.quit()
