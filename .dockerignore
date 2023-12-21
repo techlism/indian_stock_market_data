@@ -1,0 +1,8 @@
+__pycache__
+.git
+.idea
+*.pyc
+.gitignore
+installation.sh
+chromedriver-linux64
+chromedriver-linux64.zip
