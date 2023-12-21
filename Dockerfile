@@ -3,7 +3,7 @@ ARG PORT=443
 # ADD LATEST PYTHON
 FROM python
 # ADD LATEST BROWSERS
-# WORKDIR /app
+WORKDIR /app
 # RUN apt-get install -y appstream/xenial-backports
 RUN apt-get update && apt-get install -y wget unzip gnupg
 
