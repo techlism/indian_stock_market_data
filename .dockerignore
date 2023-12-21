@@ -6,3 +6,4 @@ __pycache__
 installation.sh
 chromedriver-linux64
 chromedriver-linux64.zip
+lib64
