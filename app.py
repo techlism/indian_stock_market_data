@@ -1,9 +1,6 @@
 from selenium import webdriver
-# from selenium.webdriver.common.keys import Keys
-# from selenium.webdriver.common.by import By
-# from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.service import Service
-# from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
@@ -33,18 +30,13 @@ def parse_stock_data(data):
 
 
 def get_data_bse(url):
-    chrome_options = webdriver.ChromeOptions()
-    chrome_options.add_argument("--headless")
-    chrome_options.add_argument("--no sandbox")
-    chrome_options.add_argument("--disable-dev-shm-usage")
-    chrome_options.binary_location="chrome-linux64/chrome"
-    driver_path = "chromedriver-linux64/chromedriver"
-    driver = webdriver.Chrome(service=Service(driver_path),options=chrome_options)
     try:
+        chrome_options = webdriver.ChromeOptions()
+        chrome_options.add_argument("--headless")
+        driver_path = "chromedriver-linux64/chromedriver"
+        driver = webdriver.Chrome(service=Service(driver_path),options=chrome_options)
         driver.get(url)
         page_source = driver.page_source
-        page_source = driver.page_source
-
         # Parse the page source with BeautifulSoup
         soup = BeautifulSoup(page_source, "html.parser")
         sensex_value = soup.find('div', {'class': 'sensextextold'}).text.strip()
@@ -52,6 +44,8 @@ def get_data_bse(url):
         parsed_data = parse_stock_data(sensex_value)
         # print(parsed_data)
         return parsed_data
+    except Exception as exception:
+        return("Unable to start : "+exception)
     finally:
         driver.quit()
 

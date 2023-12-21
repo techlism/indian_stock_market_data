@@ -11,9 +11,9 @@ RUN apt-get install -y gconf-service libasound2 libatk1.0-0 libc6 libcairo2 libc
 
 
 # Download and install the latest Google Chrome
-RUN wget -q https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/120.0.6099.109/linux64/chrome-linux64.zip && \
-    unzip chrome-linux64.zip && \
-    chmod +x chrome-linux64/chrome
+RUN wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && \
+    dpkg -i google-chrome-stable_current_amd64.deb && \
+    rm google-chrome-stable_current_amd64.deb
 
 
 
@@ -27,7 +27,4 @@ COPY app.py .
 RUN apt-get install -y python3-pip
 RUN pip install -r requirements.txt
 
-#ENV PORT=80
-#CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "${PORT}"]
-RUN ./chrome-linux64/chrome
 CMD uvicorn app:app --host 0.0.0.0 --port $PORT
