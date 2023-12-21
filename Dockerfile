@@ -4,8 +4,8 @@ FROM python
 # ADD LATEST BROWSERS
 FROM cypress/browsers
 # WORKDIR /app
-RUN apt-get install -y appstream/xenial-backports
-RUN appstreamcli refresh --force
+# RUN apt-get install -y appstream/xenial-backports
+# RUN appstreamcli refresh --force
 RUN apt-get install -y wget unzip
 
 
