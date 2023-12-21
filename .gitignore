@@ -7,3 +7,5 @@
 lib64/
 lib/
 /lib
+/include
+include/
