@@ -5,8 +5,8 @@ FROM python
 FROM cypress/browsers
 # WORKDIR /app
 # RUN apt-get install -y appstream/xenial-backports
-# RUN appstreamcli refresh --force
-RUN apt-get install -y wget unzip
+RUN apt-get update && apt-get install -y wget unzip
+
 
 
 RUN CHROME_VERSION=$(google-chrome-stable --version | grep -oP '(?<=Google Chrome )[^ ]+') && \
@@ -15,7 +15,7 @@ RUN CHROME_VERSION=$(google-chrome-stable --version | grep -oP '(?<=Google Chrom
     unzip chromedriver-linux64.zip && \
     chmod +x chromedriver-linux64/chromedriver
 
-RUN apt-get update && apt-get install -y python3-pip
+RUN apt-get install -y python3-pip
 RUN pip install -r requirements.txt
 
 COPY . .
