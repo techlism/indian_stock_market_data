@@ -19,7 +19,7 @@ COPY requirements.txt .
 RUN apt-get install -y python3-pip
 RUN pip install -r requirements.txt
 
-
+RUN ls
 #ENV PORT=80
 #CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "${PORT}"]
 CMD uvicorn app:app --host 0.0.0.0 --port $PORT
