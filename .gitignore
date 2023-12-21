@@ -4,6 +4,6 @@
 /chrome-linux64
 /test.html
 /lib64
-lib64
-lib
+lib64/
+lib/
 /lib
