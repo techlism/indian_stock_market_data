@@ -30,6 +30,7 @@ def parse_stock_data(data):
 
 
 def get_data_bse(url):
+    driver = None
     try:
         chrome_options = webdriver.ChromeOptions()
         chrome_options.add_argument("--headless")
@@ -47,7 +48,9 @@ def get_data_bse(url):
     except Exception as exception:
         return("Unable to start : "+exception)
     finally:
-        driver.quit()
+        if driver is not None:
+            driver.quit()
+
 
 app = FastAPI()
 
