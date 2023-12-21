@@ -34,22 +34,19 @@ def get_data_bse(url):
     try:
         chrome_options = webdriver.ChromeOptions()
         chrome_options.add_argument("--headless")
-        driver_path = "chromedriver-linux64/chromedriver"
+        chrome_options.add_argument("--no-sandbox")
+        driver_path = ChromeDriverManager().install()
         driver = webdriver.Chrome(service=Service(driver_path),options=chrome_options)
         driver.get(url)
         page_source = driver.page_source
-        # Parse the page source with BeautifulSoup
         soup = BeautifulSoup(page_source, "html.parser")
         sensex_value = soup.find('div', {'class': 'sensextextold'}).text.strip()
-        # print(sensex_value)
         parsed_data = parse_stock_data(sensex_value)
-        # print(parsed_data)
         return parsed_data
-    except Exception as exception:
-        return exception
     finally:
         if driver is not None:
             driver.quit()
+
 
 
 app = FastAPI()
