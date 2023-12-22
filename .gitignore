@@ -10,3 +10,4 @@ lib/
 /include
 include/
 bin
+pyvenv.cfg
