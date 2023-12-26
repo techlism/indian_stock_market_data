@@ -12,9 +12,9 @@ def parse_stock_data(data):
   components = data.split()
 
   # Extract and format values
-  current_value = float(components[0].replace(",", ""))
-  change_point = float(components[1].replace(",", ""))
-  change_percentage = float(components[2].replace("%", ""))
+  current_value = (components[0].replace(",", ""))
+  change_point = (components[1].replace(",", ""))
+  change_percentage = (components[2].replace("%", ""))
   date = components[3]+" "+components[4]+" "+components[5]
   time = components[7]
   status = components[9]
