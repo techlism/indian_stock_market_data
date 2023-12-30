@@ -17,6 +17,7 @@ RUN wget https://github.com/mozilla/geckodriver/releases/download/v0.29.1/geckod
     rm geckodriver-v0.29.1-linux64.tar.gz
 
 COPY requirements.txt .
+COPY utils .
 COPY app.py .
 RUN apt-get install -y python3-pip
 RUN pip install -r requirements.txt
