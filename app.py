@@ -13,30 +13,6 @@ from utils.helpers import activate_driver
 from fastapi.responses import HTMLResponse
 #---------------------------------------------------
 
-# data_dict = {}
-web_driver = None
-
-#----------------------------------------------------
-
-@asynccontextmanager
-async def load_csv_and_activate_driver(app:FastAPI):    
-    # def load_csv():
-    #     global data_dict
-    #     with open('Equity.csv', mode ='r') as file:    
-    #         csvFile = csv.DictReader(file)
-    #         for row in csvFile:
-    #             key = row.pop('Security-Code')
-    #             data_dict[key] = row
-    #     file.close()
-    
-
-                
-    # load_csv()
-    # activate_driver()
-    yield
-
-#----------------------------------------------------
-
 app = FastAPI()
 
 #----------------------------------------------------
@@ -65,18 +41,6 @@ async def get_sensex():
         raise HTTPException(status_code=500, detail=str(e))
     
 #----------------------------------------------------
-
-#----------------------------------------------------
-
-# @app.get("/get-data-from-code/{code}")
-# async def base(code: str):
-#     try:
-#         data = {code : data_dict[code]}
-#         response = get_stock_data(data,web_driver)
-#         html_content = str(response)
-#         return HTMLResponse(content=html_content)        
-#     except Exception as e:
-#         raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/nifty-value")
 async def get_nifty():
