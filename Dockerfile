@@ -9,12 +9,12 @@ WORKDIR /app
 # Install system dependencies
 RUN apt-get update && apt-get install -y wget firefox-esr
 
-# Install geckodriver
-RUN wget https://github.com/mozilla/geckodriver/releases/download/v0.29.1/geckodriver-v0.29.1-linux64.tar.gz && \
-    tar -xvzf geckodriver-v0.29.1-linux64.tar.gz && \
-    chmod +x geckodriver && \
-    mv geckodriver /usr/local/bin/ && \
-    rm geckodriver-v0.29.1-linux64.tar.gz
+# Install geckodriver (We are kinda automatically handling installation in code itself. So commenting out 👇)
+# RUN wget https://github.com/mozilla/geckodriver/releases/download/v0.29.1/geckodriver-v0.29.1-linux64.tar.gz && \
+#     tar -xvzf geckodriver-v0.29.1-linux64.tar.gz && \
+#     chmod +x geckodriver && \
+#     mv geckodriver /usr/local/bin/ && \
+#     rm geckodriver-v0.29.1-linux64.tar.gz
 
 COPY requirements.txt .
 COPY utils /app/utils
