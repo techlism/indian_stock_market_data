@@ -11,3 +11,4 @@ lib/
 lib
 pyvenv.cfg
 utils/__pycache__
+demo.py
