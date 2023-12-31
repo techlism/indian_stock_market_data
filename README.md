@@ -9,7 +9,7 @@ This Python application uses Selenium and FastAPI to scrape stock market data fr
 
 ## Requirements
 
-- Python 3.6 or higher
+- Python 3.10 or higher
 - Docker
 - Firefox ESR browser
 

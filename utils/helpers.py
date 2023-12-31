@@ -1,6 +1,6 @@
 from selenium import webdriver
 from bs4 import BeautifulSoup
-from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.firefox.service import Service
@@ -55,7 +55,9 @@ def get_data_bse_index(url:str,driver : webdriver.Firefox):
             driver.get(url)
             page_source = driver.page_source
             soup = BeautifulSoup(page_source, "html.parser")
-            sensex_value = soup.find('div', {'class': 'sensextextold'}).text.strip()
+            sensex_value = soup.find('div', {'class': 'sensextextold'})
+            if sensex_value is not None:
+                sensex_value.text.strip()
             parsed_data = parse_sensex_index_data(sensex_value)
             return parsed_data
     finally:
@@ -73,19 +75,19 @@ def create_url_from_data(response: dict):
 
     
                 
-def get_stock_data(response:dict,driver : webdriver.Firefox) -> BeautifulSoup:
-    try :
-        url = create_url_from_data(response)
-        if driver is not None:
-            driver.get(url)
-            # Wait until an element with the tag name 'body' is loaded.
-            WebDriverWait(driver, 5.0).until(EC.presence_of_element_located((By.TAG_NAME, 'body')))            
-            page_source = driver.page_source
-            soup = BeautifulSoup(page_source,"html.parser")
-            return soup
-    finally:
-        if driver is not None:
-            driver.quit()    
+# def get_stock_data(response:dict,driver : webdriver.Firefox) -> BeautifulSoup:
+#     try :
+#         url = create_url_from_data(response)
+#         if driver is not None and url is not None:
+#             driver.get(url)
+#             # Wait until an element with the tag name 'body' is loaded.
+#             WebDriverWait(driver, 5.0).until(EC.presence_of_element_located((By.TAG_NAME, 'body')))            
+#             page_source = driver.page_source
+#             soup = BeautifulSoup(page_source,"html.parser")
+#             return soup
+#     finally:
+#         if driver is not None:
+#             driver.quit()    
 
             
 def get_data_nse_index(driver:webdriver.Firefox):
@@ -96,8 +98,10 @@ def get_data_nse_index(driver:webdriver.Firefox):
             page_source = driver.page_source
             soup = BeautifulSoup(page_source,"html.parser")
             # print(soup)
-            nifty_div = soup.find('div', {'class': 'mkt_widget'}).text.strip()
-            return parse_nifty_index_data(nifty_div)
+            nifty_div = soup.find('div', {'class': 'mkt_widget'})
+            if nifty_div is not None:
+                nifty_div = nifty_div.text.strip()
+                return parse_nifty_index_data(nifty_div)
     finally:
         if driver is not None:
             driver.quit()
