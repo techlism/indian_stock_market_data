@@ -47,7 +47,7 @@ async def get_nifty():
     """Route Function for /nifty-value"""
     try:
         web_driver = activate_driver()        
-        output = {"Sensex Value" : get_data_nse_index(web_driver)}
+        output = {"Nifty Value" : get_data_nse_index(web_driver)}
         return JSONResponse(content=output)
     except Exception as e :
         raise HTTPException(status_code=500,detail=str(e)) from e
