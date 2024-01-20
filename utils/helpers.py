@@ -6,7 +6,10 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.firefox.service import Service
 from selenium.webdriver.firefox.options import Options as FirefoxOptions
 from webdriver_manager.firefox import GeckoDriverManager
+import time
 import re
+from datetime import datetime
+import pytz
 
 def activate_driver():          
     firefox_options = FirefoxOptions()
@@ -15,27 +18,44 @@ def activate_driver():
     web_driver = webdriver.Firefox(service=Service(driver_path),options=firefox_options)
     return web_driver
 
-def parse_sensex_index_data(data):
-  # Split the data into individual components
-  components = data.split()
+def parse_sensex_index_data(sensex_data) -> dict:
+    try:
+        # Initialize an empty dictionary to store the results
+        result = {}
 
-  # Extract and format values
-  current_value = (components[0].replace(",", ""))
-  change_point = (components[1].replace(",", ""))
-  change_percentage = (components[2].replace("%", ""))
-  date = components[3]+" "+components[4]+" "+components[5]
-  time = components[7]
-  status = components[9]
+        # Check if sensex_data is None
+        if sensex_data is None:
+            raise ValueError("sensex_data is None")
 
-  # Return data as a dictionary
-  return {
-      "current_value": current_value,
-      "change_point": change_point,
-      "change_percentage": change_percentage,
-      "date": date,
-      "time": time,
-      "status": status,
-  }
+        # Extract the current value
+        current_value = sensex_data.find('div', {'class': 'newsensexvalue'}).text.strip()
+        result['current_value'] = current_value
+
+        # Extract the change point and change percentage
+        change_data = sensex_data.find('div', {'class': re.compile('redtext|greentext')}).text.strip().split()
+        result['change_point'] = change_data[0]
+        result['change_percentage'] = change_data[1]
+
+        # Extract the date, time, and status
+        date_time_status = sensex_data.find('div', {'class': 'topdatearea'}).text.strip().split('|')
+        result['date'] = date_time_status[0].strip()
+        result['time'] = date_time_status[1].strip()
+        result['status'] = date_time_status[2].strip()
+
+        # Return the result dictionary
+        return result
+
+    except Exception as e:
+        IST = pytz.timezone('Asia/Kolkata')
+        current_ist_time = datetime.now(IST)
+        return {
+            "current_value" : str(e),
+            "change_point" : str(e),
+            "change_percentage" : str(e),
+            "date" : str(current_ist_time.date()),
+            "time" : str(current_ist_time.time()),
+            "status" : "N/A"
+        }
 
 def parse_nifty_index_data(stock_string:str):
     try:
@@ -49,52 +69,31 @@ def parse_nifty_index_data(stock_string:str):
     except:
         return {"Error" : "Unable to parse fetched data"}
   
-def get_data_bse_index(url:str,driver : webdriver.Firefox):
+def get_data_bse_index(driver : webdriver.Firefox):
+    url:str = "https://www.bseindia.com/sensex/code/16/"
     try:
         if driver is not None:
             driver.get(url)
+            time.sleep(2.5)
             page_source = driver.page_source
             soup = BeautifulSoup(page_source, "html.parser")
             sensex_value = soup.find('div', {'class': 'sensextextold'})
             if sensex_value is not None:
                 sensex_value.text.strip()
-            parsed_data = parse_sensex_index_data(sensex_value)
-            return parsed_data
+                parsed_data = parse_sensex_index_data(sensex_value)
+                return parsed_data
+    except Exception as e:
+        return {e}
     finally:
         if driver is not None:
             driver.quit()  
-
-def create_url_from_data(response: dict):
-    # in bseindia security_name and security_id are reduntant(we can put anything as placeholder) it primarily uses security_code
-    base = "https://www.bseindia.com/stock-share-price/"
-    for code, data in response.items():
-        security_name = data['Security-Name'].lower().replace(' ', '-').replace('&', '').replace('.', '')
-        security_id = data['Security-Id'].lower()
-        url = f"{base}{security_name}/{security_id}/{code}/"
-        return url
-
-    
-                
-# def get_stock_data(response:dict,driver : webdriver.Firefox) -> BeautifulSoup:
-#     try :
-#         url = create_url_from_data(response)
-#         if driver is not None and url is not None:
-#             driver.get(url)
-#             # Wait until an element with the tag name 'body' is loaded.
-#             WebDriverWait(driver, 5.0).until(EC.presence_of_element_located((By.TAG_NAME, 'body')))            
-#             page_source = driver.page_source
-#             soup = BeautifulSoup(page_source,"html.parser")
-#             return soup
-#     finally:
-#         if driver is not None:
-#             driver.quit()    
-
-            
+                            
 def get_data_nse_index(driver:webdriver.Firefox):
     try:
         url = "https://nseindia.com"
         if driver is not None:
             driver.get(url)
+            time.sleep(2)
             page_source = driver.page_source
             soup = BeautifulSoup(page_source,"html.parser")
             # print(soup)
